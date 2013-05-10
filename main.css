@@ -1,0 +1,30 @@
+.generate {
+  width: 230px;
+  padding: 15px;
+  background-color: #ed682f;
+  color: #FACDCD;
+  text-align: center;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+}
+
+.response {
+  width: 500px;
+  background-color: #c2e3f2;
+  height: 400px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+}
+
+.question, .answer {
+  color: #37AADE;
+  padding: 10px 0 0 10px;
+}
+
+.question {
+  font-size: 1.5em;
+}
+
+.answer {
+  font-size: 1.2em;
+}
