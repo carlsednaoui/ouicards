@@ -1,22 +1,28 @@
-function createRandomQuestion() {
-  var num = Math.floor(Math.random() * questions.length );
-  $('.question').attr({id: num + ''}); // set question ID to num
+function createRandomQuestion(questions) {
+  var randomNumber = Math.floor(Math.random() * questions.length);
+  $('.question').attr({id: randomNumber + ''}); // set question ID to randomNumber
   $('.answer').hide();
-  $('.question').html(askQuestion(num));
-  $('.answer').html("Answer: <br/><br/>" + getAnswer(num).replace(/\n/g,"<br>"));
+  $('.question').html(askQuestion(randomNumber));
+  $('.answer').html("<b>Answer:</b> <br/>" + getAnswer(randomNumber).replace(/\n/g,"<br>"));
 }
 
 function askQuestion(questionNumber) {
-  return questions[questionNumber][0];
+  return flashcards[questionNumber].question;
 }
 
 function getAnswer(questionNumber) {
-  return questions[questionNumber][1];
+  return flashcards[questionNumber].answer;
+}
+
+function createRandomQuestionFromArrayIDS(arrayIDS) {
+  var randomNumber = Math.floor(Math.random() * arrayIDS.length);
+  $('.question').html(askQuestion(arrayIDS[randomNumber]));
+  $('.answer').html("<b>Answer:</b> <br/>" + getAnswer(arrayIDS[randomNumber]).replace(/\n/g,"<br>"));
 }
 
 $(document).ready(function() {
   $('.generate').on('click', function() {
-    $('.answer').css('display') !== "none" ? createRandomQuestion() : $('.answer').show();
+    $('.answer').css('display') !== "none" ? createRandomQuestion(flashcards) : $('.answer').show();
   });
 
   $('.question').on('click', function() {
@@ -27,6 +33,10 @@ $(document).ready(function() {
   $('.save').on('click', function() {
     var questionID = $('.question').attr('id');
     saved.indexOf(questionID) == -1 && questionID !== undefined ? saved.push(questionID) : saved;
-    $('.save').html("Saved: " + saved.length + " question.");
+    $('.save').html("Saved: " + saved.length + " question");
+  });
+
+  $('.loop-thru-saved-questions').on('click', function() {
+    $('.answer').css('display') !== "none" ? createRandomQuestionFromArrayIDS(saved) : $('.answer').show();
   });
 });
