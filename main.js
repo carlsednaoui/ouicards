@@ -2,7 +2,7 @@
 function createRandomQuestion(questions, array) {
   var randomNumber, questionParagraph, answerParagraph;
 
-  // If you pass an array, pick a random number from it. Otherwise create a random number based on the questions passed.
+  // If you pass an array, pick a random number from it. Otherwise create a random number based on the numer of questions passed.
   randomNumber = array ? array[Math.floor(Math.random() * array.length)] : Math.floor(Math.random() * questions.length);
   console.log(randomNumber);
 
@@ -69,6 +69,11 @@ $(document).ready(function() {
     $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards) : $('.answer').show();
   });
 
+  // Same thing with the loop-thru-saved-questions button.
+  $('.loop-thru-saved-questions').on('click', function() {
+    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards, getQuestionsFromLocalStorage()) : $('.answer').show();
+  });
+
   // Display answer if user clicks on question.
   $('.question').on('click', function() {
     $('.answer').show();
@@ -79,6 +84,7 @@ $(document).ready(function() {
     clearlLocalStorage();
   });
 
+  // Save question to local storage.
   $('.save').on('click', function() {
     var questionID = parseInt($('.question p').attr('id'));
 
@@ -88,13 +94,8 @@ $(document).ready(function() {
     }
   });
 
-  $('.loop-thru-saved-questions').on('click', function() {
-    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards, getQuestionsFromLocalStorage()) : $('.answer').show();
-  });
-
+  // Update button copy if we have saved questionss.
   if (getQuestionsFromLocalStorage()) {
     $('.save').html("Saved: " + getQuestionsFromLocalStorage().length + " question");
   }
-
-  console.log(localStorage);
 });
