@@ -42,6 +42,7 @@ function createRandomQuestionFromArrayIDS(arrayIDS) {
 function saveQuestionToLocalStorage(questionID) {
   var savedCards = getQuestionsFromLocalStorage();
 
+  // Not sure if there's a better way to do this without if/ else.
   if ( savedCards && (savedCards.indexOf(questionID) === -1) ) {
     localStorage.saved_naturalization_flashcard_questions = savedCards + ',' + questionID;
   } else if ( !savedCards ) {
@@ -50,6 +51,7 @@ function saveQuestionToLocalStorage(questionID) {
 }
 
 function getQuestionsFromLocalStorage() {
+  // Used to avoid JS errors. Not sure if this is the best way to do this.
   if (!localStorage.saved_naturalization_flashcard_questions) {
     return;
   }
