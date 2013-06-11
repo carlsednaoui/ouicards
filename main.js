@@ -1,12 +1,31 @@
-function createRandomQuestion(questions) {
-  var randomNumber = Math.floor(Math.random() * questions.length);
-  $('.question').attr({id: randomNumber + ''}); // set question ID to randomNumber
-  $('.answer').hide();
-  $('.question').html(askQuestion(randomNumber));
-  $('.answer').html("<b>Answer:</b> <br/>" + getAnswer(randomNumber).replace(/\n/g,"<br>"));
+// Generate a new question/ answer object.
+function createRandomQuestion(questions, array) {
+  var randomNumber, questionParagraph, answerParagraph;
+
+  // If you pass an array, pick a random number from it. Otherwise create a random number based on the questions passed.
+  randomNumber = array ? array[Math.floor(Math.random() * array.length)] : Math.floor(Math.random() * questions.length);
+  console.log(randomNumber);
+
+  questionParagraph = document.createElement('p');
+  questionParagraph.id = randomNumber;
+  questionParagraph.innerHTML = getQuestion(randomNumber);
+
+  answerParagraph = document.createElement('p');
+  answerParagraph.innerHTML = getAnswer(randomNumber).replace(/\n/g, '<br>'); // replace line breaks with <br> tags
+
+  return {question: questionParagraph, answer: answerParagraph};
 }
 
-function askQuestion(questionNumber) {
+// Change the actual page HTML with a new question/ answer.
+function createAndChangeQuestion(questions, array) {
+  var questionAnswerObject = createRandomQuestion(questions, array);
+
+  $('.answer').hide();
+  $('.question').html(questionAnswerObject.question);
+  $('.answer').html(questionAnswerObject.answer);
+}
+
+function getQuestion(questionNumber) {
   return flashcards[questionNumber].question;
 }
 
@@ -16,27 +35,66 @@ function getAnswer(questionNumber) {
 
 function createRandomQuestionFromArrayIDS(arrayIDS) {
   var randomNumber = Math.floor(Math.random() * arrayIDS.length);
-  $('.question').html(askQuestion(arrayIDS[randomNumber]));
+  $('.question').html(getQuestion(arrayIDS[randomNumber]));
   $('.answer').html("<b>Answer:</b> <br/>" + getAnswer(arrayIDS[randomNumber]).replace(/\n/g,"<br>"));
 }
 
+function saveQuestionToLocalStorage(questionID) {
+  var savedCards = getQuestionsFromLocalStorage();
+
+  if ( savedCards && (savedCards.indexOf(questionID) === -1) ) {
+    localStorage.saved_naturalization_flashcard_questions = savedCards + ',' + questionID;
+  } else if ( !savedCards ) {
+    localStorage.saved_naturalization_flashcard_questions = questionID;
+  }
+}
+
+function getQuestionsFromLocalStorage() {
+  if (!localStorage.saved_naturalization_flashcard_questions) {
+    return;
+  }
+  var savedQuestionArray = localStorage.saved_naturalization_flashcard_questions.split(',');
+  var savedQuestionArrayInIntegers = savedQuestionArray.map(function(el) { return parseInt(el, 10); });
+  return savedQuestionArrayInIntegers;
+}
+
+function clearlLocalStorage() {
+  delete localStorage.saved_naturalization_flashcard_questions;
+}
+
 $(document).ready(function() {
+
+  // If answer is hidden, show it. Otherwise create a new question and insert it.
   $('.generate').on('click', function() {
-    $('.answer').css('display') !== "none" ? createRandomQuestion(flashcards) : $('.answer').show();
+    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards) : $('.answer').show();
   });
 
+  // Display answer if user clicks on question.
   $('.question').on('click', function() {
     $('.answer').show();
   });
 
-  var saved = [];
+  // Clear the local storage -- to reset saved questions.
+  $('.clear-local-storage').on('click', function() {
+    clearlLocalStorage();
+  });
+
   $('.save').on('click', function() {
-    var questionID = $('.question').attr('id');
-    saved.indexOf(questionID) == -1 && questionID !== undefined ? saved.push(questionID) : saved;
-    $('.save').html("Saved: " + saved.length + " question");
+    var questionID = parseInt($('.question p').attr('id'));
+
+    if (questionID) {
+      saveQuestionToLocalStorage(questionID);
+      $('.save').html("Saved: " + getQuestionsFromLocalStorage().length + " question");
+    }
   });
 
   $('.loop-thru-saved-questions').on('click', function() {
-    $('.answer').css('display') !== "none" ? createRandomQuestionFromArrayIDS(saved) : $('.answer').show();
+    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards, getQuestionsFromLocalStorage()) : $('.answer').show();
   });
+
+  if (getQuestionsFromLocalStorage()) {
+    $('.save').html("Saved: " + getQuestionsFromLocalStorage().length + " question");
+  }
+
+  console.log(localStorage);
 });

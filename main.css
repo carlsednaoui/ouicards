@@ -38,7 +38,7 @@ body {
   font-size: 1.2em;
 }
 
-.save, .loop-thru-saved-questions {
+.save, .loop-thru-saved-questions, .clear-local-storage {
   background-color: #f2a038;
   width: 140px;
   padding: 5px;
@@ -47,6 +47,7 @@ body {
   cursor: pointer;
   border-radius: 3px;
   -webkit-border-radius: 3px;
+  -webkit-user-select:none;
 }
 
 .loop-thru-saved-questions {
