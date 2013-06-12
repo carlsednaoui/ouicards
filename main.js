@@ -38,19 +38,19 @@ $(document).ready(function() {
 
 // Generate a new question/ answer object.
 function createQuestion(questions, array) {
-  var randomNumber, questionParagraph, answerParagraph;
+  var randomNumber, questionEl, answerEl;
 
   // If you pass an array, pick a random number from it. Otherwise create a random number based on the numer of questions passed.
   randomNumber = array ? array[Math.floor(Math.random() * array.length)] : Math.floor(Math.random() * questions.length);
 
-  questionParagraph = document.createElement('p');
-  questionParagraph.id = randomNumber;
-  questionParagraph.innerHTML = getQuestion(randomNumber);
+  questionEl = document.createElement('p');
+  questionEl.id = randomNumber;
+  questionEl.innerHTML = getQuestion(randomNumber);
 
-  answerParagraph = document.createElement('p');
-  answerParagraph.innerHTML = getAnswer(randomNumber).replace(/\n/g, '<br>'); // replace line breaks with <br> tags
+  answerEl = document.createElement('p');
+  answerEl.innerHTML = getAnswer(randomNumber).replace(/\n/g, '<br>'); // replace line breaks with <br> tags
 
-  return {question: questionParagraph, answer: answerParagraph};
+  return {question: questionEl, answer: answerEl};
 }
 
 // Change the actual page HTML with a new question/ answer.
