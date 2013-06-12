@@ -1,4 +1,9 @@
 $(document).ready(function() {
+  initializeHandlers();
+  updateSaveButtonCopy();
+});
+
+function initializeHandlers() {
   // If answer is hidden, show it. Otherwise create a new question and insert it.
   $('.generate').on('click', function() {
     $('.answer').is(':visible') ? changeQuestion(flashcards) : $('.answer').show();
@@ -28,12 +33,13 @@ $(document).ready(function() {
       $('.save').html("Saved: " + getFromLocalStorage().length + " question");
     }
   });
-
-  updateSaveButtonCopy();
-});
+}
 
 // Change the question/ answer.
 function changeQuestion(array) {
+  // Prevent implosion if users tries to loop thru 0 saved questions
+  if (!array) { console.log('what are you doing?'); return; }
+
   var randomNumber = generateRandomNumber(array);
   var questionObject = buildQuestionHTML(randomNumber);
 
@@ -59,7 +65,7 @@ function buildQuestionHTML(questionNumber) {
   questionEl.innerHTML = flashcards[questionNumber].question;
 
   answerEl = document.createElement('p');
-  answerEl.innerHTML = flashcards[questionNumber].answer.replace(/\n/g, '<br>'); // replace line breaks with <br> tags
+  answerEl.innerHTML = flashcards[questionNumber].answer.replace(/\n/g, '<br>');
 
   return {question: questionEl, answer: answerEl};
 }
@@ -77,9 +83,8 @@ function saveToLocalStorage(questionID) {
 
 function getFromLocalStorage() {
   // Used to avoid JS errors. Not sure if this is the best way to do this.
-  if (!localStorage.savedQuestions) {
-    return;
-  }
+  if (!localStorage.savedQuestions) { return; }
+
   var savedQuestions = localStorage.savedQuestions.split(',');
   var savedQuestionsInt = savedQuestions.map(function(el) { return parseInt(el, 10); });
   return savedQuestionsInt;
