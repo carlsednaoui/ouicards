@@ -3,6 +3,10 @@ body {
    font-weight: 300;
 }
 
+.question p {
+  margin: 0;
+}
+
 .generate button {
   width: 500px;
   padding: 15px;
