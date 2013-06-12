@@ -2,12 +2,12 @@ $(document).ready(function() {
 
   // If answer is hidden, show it. Otherwise create a new question and insert it.
   $('.generate').on('click', function() {
-    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards) : $('.answer').show();
+    $('.answer').is(':visible') ? createAndChangeQuestion(flashcards) : $('.answer').show();
   });
 
   // Same thing with the loop-thru-saved-questions button.
   $('.loop-thru-saved-questions').on('click', function() {
-    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards, getQuestionsFromLocalStorage()) : $('.answer').show();
+    $('.answer').is(':visible') ? createAndChangeQuestion(flashcards, getQuestionsFromLocalStorage()) : $('.answer').show();
   });
 
   // Display answer if user clicks on question.
