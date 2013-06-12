@@ -1,3 +1,41 @@
+$(document).ready(function() {
+
+  // If answer is hidden, show it. Otherwise create a new question and insert it.
+  $('.generate').on('click', function() {
+    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards) : $('.answer').show();
+  });
+
+  // Same thing with the loop-thru-saved-questions button.
+  $('.loop-thru-saved-questions').on('click', function() {
+    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards, getQuestionsFromLocalStorage()) : $('.answer').show();
+  });
+
+  // Display answer if user clicks on question.
+  $('.question').on('click', function() {
+    $('.answer').show();
+  });
+
+  // Clear the local storage -- to reset saved questions.
+  $('.clear-local-storage').on('click', function() {
+    clearlLocalStorage();
+  });
+
+  // Save question to local storage.
+  $('.save').on('click', function() {
+    var questionID = parseInt($('.question p').attr('id'));
+
+    if (questionID) {
+      saveQuestionToLocalStorage(questionID);
+      $('.save').html("Saved: " + getQuestionsFromLocalStorage().length + " question");
+    }
+  });
+
+  // Update button copy if we have saved questionss.
+  if (getQuestionsFromLocalStorage()) {
+    $('.save').html("Saved: " + getQuestionsFromLocalStorage().length + " question");
+  }
+});
+
 // Generate a new question/ answer object.
 function createRandomQuestion(questions, array) {
   var randomNumber, questionParagraph, answerParagraph;
@@ -63,41 +101,3 @@ function getQuestionsFromLocalStorage() {
 function clearlLocalStorage() {
   delete localStorage.saved_naturalization_flashcard_questions;
 }
-
-$(document).ready(function() {
-
-  // If answer is hidden, show it. Otherwise create a new question and insert it.
-  $('.generate').on('click', function() {
-    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards) : $('.answer').show();
-  });
-
-  // Same thing with the loop-thru-saved-questions button.
-  $('.loop-thru-saved-questions').on('click', function() {
-    $('.answer').css('display') !== "none" ? createAndChangeQuestion(flashcards, getQuestionsFromLocalStorage()) : $('.answer').show();
-  });
-
-  // Display answer if user clicks on question.
-  $('.question').on('click', function() {
-    $('.answer').show();
-  });
-
-  // Clear the local storage -- to reset saved questions.
-  $('.clear-local-storage').on('click', function() {
-    clearlLocalStorage();
-  });
-
-  // Save question to local storage.
-  $('.save').on('click', function() {
-    var questionID = parseInt($('.question p').attr('id'));
-
-    if (questionID) {
-      saveQuestionToLocalStorage(questionID);
-      $('.save').html("Saved: " + getQuestionsFromLocalStorage().length + " question");
-    }
-  });
-
-  // Update button copy if we have saved questionss.
-  if (getQuestionsFromLocalStorage()) {
-    $('.save').html("Saved: " + getQuestionsFromLocalStorage().length + " question");
-  }
-});
