@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
   // If answer is hidden, show it. Otherwise create a new question and insert it.
   $('.generate').on('click', function() {
     $('.answer').is(':visible') ? changeQuestion(flashcards) : $('.answer').show();
@@ -7,7 +6,7 @@ $(document).ready(function() {
 
   // Same thing with the loop-thru-saved-questions button.
   $('.loop-thru-saved-questions').on('click', function() {
-    $('.answer').is(':visible') ? changeQuestion(flashcards, getFromLocalStorage()) : $('.answer').show();
+    $('.answer').is(':visible') ? changeQuestion(getFromLocalStorage()) : $('.answer').show();
   });
 
   // Display answer if user clicks on question.
@@ -30,44 +29,39 @@ $(document).ready(function() {
     }
   });
 
-  // Update button copy if we have saved questionss.
-  if (getFromLocalStorage()) {
-    $('.save').html("Saved: " + getFromLocalStorage().length + " question");
-  }
+  updateSaveButtonCopy();
 });
 
-// Generate a new question/ answer object.
-function createQuestion(questions, array) {
-  var randomNumber, questionEl, answerEl;
-
-  // If you pass an array, pick a random number from it. Otherwise create a random number based on the numer of questions passed.
-  randomNumber = array ? array[Math.floor(Math.random() * array.length)] : Math.floor(Math.random() * questions.length);
-
-  questionEl = document.createElement('p');
-  questionEl.id = randomNumber;
-  questionEl.innerHTML = getQuestion(randomNumber);
-
-  answerEl = document.createElement('p');
-  answerEl.innerHTML = getAnswer(randomNumber).replace(/\n/g, '<br>'); // replace line breaks with <br> tags
-
-  return {question: questionEl, answer: answerEl};
-}
-
-// Change the actual page HTML with a new question/ answer.
-function changeQuestion(questions, array) {
-  var questionObject = createQuestion(questions, array);
+// Change the question/ answer.
+function changeQuestion(array) {
+  var randomNumber = generateRandomNumber(array);
+  var questionObject = buildQuestionHTML(randomNumber);
 
   $('.answer').hide();
   $('.question').html(questionObject.question);
   $('.answer').html(questionObject.answer);
 }
 
-function getQuestion(questionNumber) {
-  return flashcards[questionNumber].question;
+function generateRandomNumber(array) {
+  // If the array passed is === flashcards, just create a random number
+  // otherwise extract a random number from the array.
+  var randomNumber = array === flashcards ?
+      Math.floor(Math.random() * array.length) :
+      array[Math.floor(Math.random() * array.length)];
+  return randomNumber;
 }
 
-function getAnswer(questionNumber) {
-  return flashcards[questionNumber].answer;
+function buildQuestionHTML(questionNumber) {
+  var questionEl, answerEl;
+
+  questionEl = document.createElement('p');
+  questionEl.id = questionNumber;
+  questionEl.innerHTML = flashcards[questionNumber].question;
+
+  answerEl = document.createElement('p');
+  answerEl.innerHTML = flashcards[questionNumber].answer.replace(/\n/g, '<br>'); // replace line breaks with <br> tags
+
+  return {question: questionEl, answer: answerEl};
 }
 
 function saveToLocalStorage(questionID) {
@@ -75,22 +69,31 @@ function saveToLocalStorage(questionID) {
 
   // Not sure if there's a better way to do this without if/ else.
   if ( savedCards && (savedCards.indexOf(questionID) === -1) ) {
-    localStorage.saved_questions = savedCards + ',' + questionID;
+    localStorage.savedQuestions = savedCards + ',' + questionID;
   } else if ( !savedCards ) {
-    localStorage.saved_questions = questionID;
+    localStorage.savedQuestions = questionID;
   }
 }
 
 function getFromLocalStorage() {
   // Used to avoid JS errors. Not sure if this is the best way to do this.
-  if (!localStorage.saved_questions) {
+  if (!localStorage.savedQuestions) {
     return;
   }
-  var savedQuestions = localStorage.saved_questions.split(',');
+  var savedQuestions = localStorage.savedQuestions.split(',');
   var savedQuestionsInt = savedQuestions.map(function(el) { return parseInt(el, 10); });
   return savedQuestionsInt;
 }
 
 function clearlLocalStorage() {
-  delete localStorage.saved_questions;
+  delete localStorage.savedQuestions;
+  updateSaveButtonCopy();
+}
+
+function updateSaveButtonCopy() {
+  if (getFromLocalStorage()) {
+    $('.save').html("Saved: " + getFromLocalStorage().length + " question");
+  } else {
+    $('.save').html("Save Question");
+  }
 }
