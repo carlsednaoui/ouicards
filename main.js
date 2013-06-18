@@ -41,6 +41,12 @@ function changeQuestion(array) {
   if (!array) { console.log('what are you doing?'); return; }
 
   var randomNumber = generateRandomNumber(array);
+  var currentQuestionID = parseInt($('.question p').attr('id'));
+
+  // Make sure the same question is not displayed twice in a row
+  while (randomNumber === currentQuestionID) {
+    randomNumber = generateRandomNumber(array);
+  }
   var questionObject = buildQuestionHTML(randomNumber);
 
   $('.answer').hide();
