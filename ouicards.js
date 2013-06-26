@@ -11,6 +11,15 @@ $(document).ready(function() {
 
 (function(exports) {
   exports.initializeHandlers = function(flashcards) {
+    // Unbind all events, in case user loads new flashcard questions
+    $('.generate').unbind();
+    $('.loop-thru-saved-questions').unbind();
+    $('.question').unbind();
+    $('.clear-local-storage').unbind();
+    $('.save').unbind();
+    $('.answer').unbind();
+
+
     // If answer is hidden, show it. Otherwise create a new question and insert it.
     $('.generate').on('click', function() {
       $('.answer').is(':visible') ? changeQuestion(flashcards, flashcards) : $('.answer').show();
@@ -53,8 +62,9 @@ $(document).ready(function() {
     // Make sure the same question is not displayed twice in a row
     // Only if we do HAVE more than 1 question
     while (randomNumber === currentQuestionID && array.length > 1) {
-      randomNumber = generateRandomNumber(array);
+      randomNumber = generateRandomNumber(array, flashcards);
     }
+
     var questionObject = buildQuestionHTML(randomNumber, flashcards);
 
     $('.answer').hide();
