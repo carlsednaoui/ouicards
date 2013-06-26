@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 (function(exports) {
   exports.initializeHandlers = function(flashcards) {
-    // Unbind all events, in case user loads new flashcard questions
+    // Unbind all events, in case the user loads new flashcard questions
     $('.generate').unbind();
     $('.loop-thru-saved-questions').unbind();
     $('.question').unbind();
@@ -37,14 +37,14 @@ $(document).ready(function() {
 
     // Clear the local storage -- to reset saved questions.
     $('.clear-local-storage').on('click', function() {
-      clearlLocalStorage();
+      clearLocalStorage();
     });
 
     // Save question to local storage.
     $('.save').on('click', function() {
       var questionID = parseInt($('.question p').attr('id'), 10);
 
-      if (questionID) {
+      if (questionID !== NaN) {
         saveToLocalStorage(questionID);
         $('.save').html("Saved: " + getFromLocalStorage().length + " question");
       }
@@ -114,7 +114,7 @@ $(document).ready(function() {
     return savedQuestionsInt;
   }
 
-  function clearlLocalStorage() {
+  function clearLocalStorage() {
     delete localStorage.savedQuestions;
     updateSaveButtonCopy();
   }
