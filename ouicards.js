@@ -52,7 +52,7 @@ $(document).ready(function() {
 
     // Make sure the same question is not displayed twice in a row
     // Only if we do HAVE more than 1 question
-    while (randomNumber === currentQuestionID && array.size > 1) {
+    while (randomNumber === currentQuestionID && array.length > 1) {
       randomNumber = generateRandomNumber(array);
     }
     var questionObject = buildQuestionHTML(randomNumber, flashcards);
