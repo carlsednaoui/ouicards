@@ -42,30 +42,33 @@ function initializeHandlers(flashcards) {
       }
     });
 
+    // Show custom question input area
     $('#pre-load-button').click(function(){
       $('#questions-input-area').show();
       $('#load-questions').show();
       $('#pre-load-button').hide();
     });
 
-    $('#load-questions').click(function(){
-      initializeHandlers( getUserQuestions() );
-    });
-}
+    // Get custom questions from input area
+    function getUserQuestions() {
+      var flashcards = [],
+          userInput = document.getElementById('questions-input-area').value.split('\n');
 
-function getUserQuestions() {
-  var flashcards = [],
-      userInput = document.getElementById('questions-input-area').value.split('\n');
+      // Get rid of empty questions
+      userInput = userInput.filter(function(card) {
+        return card !== "";
+      });
 
-  // Get rid of empty questions
-  userInput = userInput.filter(function(card) {
-    return card !== "";
-  });
+      userInput.forEach(function(card) {
+        var parsedCard = card.split('\t');
+        flashcards.push({question: parsedCard[0], answer: parsedCard[1]});
+      });
 
-  userInput.forEach(function(card) {
-    var parsedCard = card.split('\t');
-    flashcards.push({question: parsedCard[0], answer: parsedCard[1]});
-  });
+      return flashcards;
+    }
 
-  return flashcards;
+   // Reload this whole thing if a user loads new questions in
+   $('#load-questions').click(function(){
+     initializeHandlers( getUserQuestions() );
+   });
 }
