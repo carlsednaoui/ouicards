@@ -60,5 +60,14 @@ body {
   margin-left: 140px;
 }
 
+/*LOAD QUESTIONS*/
+.question-import {
+  clear: both;
+}
+
+#questions-input-area, #load-questions {
+  display: none;
+}
+
 /*http://dribbble.com/shots/1075965-Contest-Icons?list=popular&offset=12*/
 /*http://dribbble.com/shots/1065110-Fox?list=popular&offset=124*/
