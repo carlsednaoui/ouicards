@@ -3,7 +3,7 @@ document.getElementById('pre-load-button').onclick = function() {
 };
 
 document.getElementById('load-questions').onclick = function() {
-  initializeHandlers(getUserQuestions());
+  initializeOuicardsHandlers(getUserQuestions());
 };
 
 function showQuestionInput() {

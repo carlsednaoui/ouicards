@@ -5,12 +5,12 @@ $(document).ready(function() {
      alert('invalid json');
   }
 
-  initializeHandlers(flashcards);
+  initializeOuicardsHandlers(flashcards);
   updateSaveButtonCopy();
 });
 
 (function(exports) {
-  exports.initializeHandlers = function(flashcards) {
+  exports.initializeOuicardsHandlers = function(flashcards) {
     // Unbind all events, in case the user loads new flashcard questions
     $('.generate').unbind();
     $('.loop-thru-saved-questions').unbind();
