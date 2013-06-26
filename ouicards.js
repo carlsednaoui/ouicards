@@ -1,11 +1,5 @@
 $(document).ready(function() {
-  try {
-    var flashcards = JSON.parse(flashcardsJSON).questions;
-  } catch(e) {
-     alert('invalid json');
-  }
-
-  initializeOuicardsHandlers(flashcards);
+  initializeOuicardsHandlers(ouiCardsFlashcards);
   updateSaveButtonCopy();
 });
 
