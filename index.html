@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Welcome</title>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <script src="questions.js"></script>
-  <script src="ouicards.js"></script>
-  <link rel="stylesheet" href="main.css">
-</head>
+  <head>
+    <title>Welcome</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="questions.js"></script>
+    <script src="ouicards.js"></script>
+    <link rel="stylesheet" href="main.css">
+  </head>
 
-<body>
-  <div class="generate"><button type="button">Click here to start or go to next</button></div>
-  <span class="saved-questions">
-    <p class="save">Save Question</p>
-    <p class="loop-thru-saved-questions">Loop thru saved Q's</p>
-  </span>
-  <div class="response">
-    <div class="question"></div>
-    <div class="answer"></div>
-  </div>
-  <p class="clear-local-storage">Clear saved questions</p>
-</body>
+  <body>
+    <div class="generate">
+      <button type="button">Click here to start or go to next</button>
+    </div>
+
+    <span class="saved-questions">
+      <p class="save">Save Question</p>
+      <p class="loop-thru-saved-questions">Loop thru saved Q's</p>
+    </span>
+
+    <div class="response">
+      <div class="question"></div>
+      <div class="answer"></div>
+    </div>
+
+    <p class="clear-local-storage">Clear saved questions</p>
+
+    <div class="question-import">
+      <button id="pre-load-button">I want to load my own questions</button>
+
+      <textarea id="questions-input-area"></textarea>
+      <button id="load-questions">Load questions</button>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
 </html>
