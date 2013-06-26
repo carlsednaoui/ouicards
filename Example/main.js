@@ -8,7 +8,6 @@ document.getElementById('load-questions').onclick = function() {
   var flashcards = getNewQuestions();
 
   initializeHandlers(flashcards);
-  console.log('new questions loaded');
 };
 
 function getNewQuestions() {
