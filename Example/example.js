@@ -1,15 +1,56 @@
-document.getElementById('pre-load-button').onclick = function() {
-  showQuestionInput();
-};
+$(document).ready(function() {
+  initializeHandlers(ouiCardsFlashcards);
+  ouicards.updateSaveButtonCopy('.save');
+});
 
-document.getElementById('load-questions').onclick = function() {
-  initializeOuicardsHandlers(getUserQuestions());
-};
+function initializeHandlers(flashcards) {
+    // Unbind all events, in case the user loads new flashcard questions
+    $('.generate').unbind();
+    $('.loop-thru-saved-questions').unbind();
+    $('.question').unbind();
+    $('.clear-local-storage').unbind();
+    $('.save').unbind();
+    $('.answer').unbind();
 
-function showQuestionInput() {
-  document.getElementById('questions-input-area').style.display = 'block';
-  document.getElementById('load-questions').style.display = 'block';
-  document.getElementById('pre-load-button').style.display = 'none';
+    // If answer is hidden, show it. Otherwise create a new question and insert it.
+    $('.generate').on('click', function() {
+      $('.answer').is(':visible') ? ouicards.changeQuestion(flashcards, flashcards, '.question', '.answer') : $('.answer').show();
+    });
+
+    // Same thing with the loop-thru-saved-questions button.
+    $('.loop-thru-saved-questions').on('click', function() {
+      $('.answer').is(':visible') ? ouicards.changeQuestion(ouicards.getFromLocalStorage(), flashcards, '.question', '.answer') : $('.answer').show();
+    });
+
+    // Display answer if user clicks on question.
+    $('.question').on('click', function() {
+      $('.answer').show();
+    });
+
+    // Clear the local storage -- to reset saved questions.
+    $('.clear-local-storage').on('click', function() {
+      ouicards.clearLocalStorage('.save');
+    });
+
+    // Save question to local storage.
+    $('.save').on('click', function() {
+      var questionID = parseInt($('.question p').attr('id'), 10);
+
+      if (!isNaN(questionID)) {
+        ouicards.saveToLocalStorage(questionID);
+        $('.save').html("Saved: " + ouicards.getFromLocalStorage().length + " question");
+      }
+    });
+
+    $('#pre-load-button').click(function(){
+      $('#questions-input-area').show();
+      $('#load-questions').show();
+      $('#pre-load-button').hide();
+    });
+
+    $('#load-questions').click(function(){
+      initializeHandlers( getUserQuestions() );
+    });
 }
 
 function getUserQuestions() {
