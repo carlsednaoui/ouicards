@@ -1,6 +1,9 @@
 # Ouicards - Fancy Schmancy Flashcards
 Easy to use flashcards to study for... whatever. The example provided is for the New York State Immigration Naturalization test.
 
+## Live Example
+[Go here :)](http://carlsednaoui.github.io/ouicards/Example/index.html)
+
 ## Using Ouicards
 The first thing you'll need is an array of Question/ Answer objects.
 
