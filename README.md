@@ -42,20 +42,32 @@ You can then use the functions outlined below.
     ouicards.bucketC: All questions available in Bucket C.
     ouicards.counter: A running counter. Used to know which bucket to get the next question from.
 
-    ouicards.loadFromBrowser(selector, delimiter): Uses jQuery to load the value of a given selector.
-      // This saves the questions into ouicards, localStorage AND returns an object with Flashcards, Bucket A, B and C.
-    ouicards.loadFromArray(array): Loads the array of questions provided into ouicards and localStorage.
-    ouicards.getQuestion(bucket): Gets a question for a given bucket and returns the built question HTML for it.
-    ouicards.buildQuestionHTML(rawQuestion): Returns a question/ answer HTML object {question: questionEl, answer: answerEl}.
+    ouicards.loadFromBrowser(selector, delimiter) 
+      // Uses jQuery to load the value of a given selector.
+      // This saves the questions into ouicards, localStorage AND 
+        // returns an object with Flashcards, Bucket A, B and C.
+    ouicards.loadFromArray(array)
+      // Loads the array of questions provided into ouicards and localStorage.
+    ouicards.getQuestion(bucket)
+      // Gets a question for a given bucket and returns the built question HTML for it.
+    ouicards.buildQuestionHTML(rawQuestion)
+      // Returns a question/ answer HTML object {question: questionEl, answer: answerEl}.
+    ouicards.moveQuestion(fromBucket, toBucket)
+     // Moves a question from a given bucket to another given bucket.
 
-    ouicards.next(): Returns a new question/ answer object.
-    ouicards.correct(): Moves the current question to the next appropriate bucket.
-    ouicards.wrong(): Moves the current question to Bucket A.
-    ouicards.moveQuestion(fromBucket, toBucket): Moves a question from a given bucket to another given bucket.
-    ouicards.saveToLS(): Saves your flashcards, Bucket A, Bucket B and Bucket C to localStorage.
-    ouicards.getFromLS(): Gets your flashcards, Bucket A, Bucket B and Bucket C from localStorage. 
+    ouicards.next()
+      // Returns a new question/ answer object.
+    ouicards.correct()
+      // Moves the current question to the next appropriate bucket.
+    ouicards.wrong()
+      // Moves the current question to Bucket A.
+    ouicards.saveToLS()
+      // Saves your flashcards, Bucket A, Bucket B and Bucket C to localStorage.
+    ouicards.getFromLS()
+      // Gets your flashcards, Bucket A, Bucket B and Bucket C from localStorage. 
       // This also sets ouicards.currentBucket and ouicards.counter.
-    ouicards.reset(): Resets ouicards buckets. 
+    ouicards.reset()
+      // Resets ouicards buckets. 
       // Bucket A will equal your flashcards array. Bucket B and C will be empty arrays.  
       // Your currentBucket will also be empty and all of this will get saved to localStorage.
 
