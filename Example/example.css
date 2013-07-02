@@ -102,6 +102,11 @@ body {
 
 .question p, .answer p {
   margin: 0;
+  padding-bottom: 15px;
+}
+
+.answer p a {
+  color: #fbfbfb;
 }
 
 .question {
