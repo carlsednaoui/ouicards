@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ouicards by carlsednaoui</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Ouicards</h1>
+        <p>JavaScript Flashcard Generator</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/carlsednaoui/ouicards" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/carlsednaoui/ouicards/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/carlsednaoui/ouicards/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a name="ouicards---fancy-schmancy-flashcards" class="anchor" href="#ouicards---fancy-schmancy-flashcards"><span class="octicon octicon-link"></span></a>Ouicards - Fancy Schmancy Flashcards</h1>
+
+<p>Easy to use flashcards to study for... whatever. The example provided is for the New York State Immigration Naturalization test.</p>
+
+<h2>
+<a name="using-ouicards" class="anchor" href="#using-ouicards"><span class="octicon octicon-link"></span></a>Using Ouicards</h2>
+
+<p>The first thing you'll need is an array of Question/ Answer objects.</p>
+
+<p>Example:</p>
+
+<pre><code>var flashcards = [
+  {question: "Who build this?", answer: "Carl Sednaoui"}, 
+  {question: "Where was Ouicards made?", answer: "In NYC, during Hacker School"}
+]
+</code></pre>
+
+<p>You can then use the functions outlined below.</p>
+
+<h2>
+<a name="functions-available" class="anchor" href="#functions-available"><span class="octicon octicon-link"></span></a>Functions Available</h2>
+
+<pre><code>ouicards.changeQuestion(arrayForRdnNm, flashcards, qSelector, aSelector)
+  // arrayForRdnNm: This can either be your entire set of flashcards or an array of saved question numbers
+  // flashcards: These are the flashcards you are trying to learn
+  // qSelector: Your html question selector. This will be used by jQuery to find and replace your question html content.
+  // aSelector: Your html answer selector. This will be used by jQuery to find and replace your answer html content.
+
+ouicards.clearLocalStorage(saveButtonSelector)
+  // Clears saved ouicards from localstorage.
+  // saveButtonSelector: The html selector for your save button. This will be used to update the button copy
+  //  and will read as follows: "Saved: 1 question"
+
+ouicards.saveToLocalStorage(questionID)
+  // Save a given question to ouicards localstorage
+
+ouicards.getFromLocalStorage()
+  // Get saved ouicards from localstorage
+
+ouicards.updateSaveButtonCopy(saveButtonSelector)
+  // Updates your save button copy. Similar to ouicards.clearLocalStorage(saveButtonSelector)
+</code></pre>
+
+<h3>
+<a name="other-functions-available---which-you-probably-wont-use" class="anchor" href="#other-functions-available---which-you-probably-wont-use"><span class="octicon octicon-link"></span></a>Other functions available - which you probably won't use</h3>
+
+<pre><code>ouicards.generateRandomNumber(arrayForRdnNm, flashcards)
+  // Generate a random number. Used by ouical.changeQuestion(arrayForRdnNm, flashcards, qSelector, aSelector)
+
+ouicards.buildQuestionHTML(questionNumber, flashcards)
+  // Builds your questions/ answer html. Also used by ouical.changeQuestion(arrayForRdnNm, flashcards, qSelector, aSelector)
+</code></pre>
+
+<h2>
+<a name="to-do" class="anchor" href="#to-do"><span class="octicon octicon-link"></span></a>To Do</h2>
+
+<ul>
+<li>Implement the <a href="http://en.wikipedia.org/wiki/Leitner_system">Leitner System</a>
+</li>
+</ul>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/carlsednaoui">carlsednaoui</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-23209172-4");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
