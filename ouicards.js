@@ -1,21 +1,18 @@
 (function(exports) {
   exports.ouicards = {
-    currentBucket: '',
+    currentBucket: [],
     flashcards: [],
     bucketA: [],
     bucketB: [],
     bucketC: [],
     counter: 1,
-
     loadFromArray: function(array) {
       this.flashcards = array;
-      this.reset();
-      this.currentBucket = this.bucketA;
-      this.saveToLS();
+      this.resetBuckets();
     },
     loadFromBrowser: function(selector, delimiter) {
       var flashcards = [],
-          userInput = $(selector).val().split('\n');
+          userInput  = $(selector).val().split('\n');
 
       // Get rid of empty questions
       userInput = userInput.filter(function(card) {
@@ -33,37 +30,53 @@
       });
 
       this.flashcards = flashcards;
-      this.reset();
-      this.currentBucket = this.bucketA;
-      this.saveToLS();
+      this.resetBuckets();
       return this.getFromLS();
     },
     next: function() {
-      var newQuestion;
+      var newQuestion,
+          bigInterval   = Math.ceil(this.flashcards.length / 3) + 1,
+          smallInterval = Math.ceil(this.flashcards.length / 6) + 1;
 
-      if (this.counter % (Math.ceil(this.flashcards.length / 3) +1) === 0 && this.bucketC.length !== 0) {
+      // Show an answer from bucket C once every bigInterval 
+      // So long as Bucket C it's not empty
+      if (this.counter % bigInterval === 0 && this.bucketC.length !== 0) {
         newQuestion = this.getQuestion(this.bucketC);
         this.currentBucket = this.bucketC;
-      } else if (this.counter % (Math.ceil(this.flashcards.length / 6) +1) === 0 && this.bucketB.length !== 0) {
+
+      // Show an answer from bucket B once every smallInterval
+      // So long as Bucket B it's not empty
+      } else if (this.counter % smallInterval === 0 && this.bucketB.length !== 0) {
         newQuestion = this.getQuestion(this.bucketB);
         this.currentBucket = this.bucketB;
+
+      // Show an answer from Bucket A, so long as it's not empty
       } else if (this.bucketA.length !== 0) {
         newQuestion = this.getQuestion(this.bucketA);
         this.currentBucket = this.bucketA;
+
+      // Show an answer from Bucket B, so long as it's not empty
       } else if (this.bucketB.length !== 0) {
         newQuestion = this.getQuestion(this.bucketB);
         this.currentBucket = this.bucketB;
-      } else {
+
+      // Show a question from Bucket C, so long as it's not empty
+      } else if (this.bucketC.length !== 0) {
         newQuestion = this.getQuestion(this.bucketC);
         this.currentBucket = this.bucketC;
+      } else {
+        console.log('There was a serious problem with ouicards. You should never see this.');
       }
 
-      // Reset counter if it's greater than flashcard count, other wise ++ it
+      // Reset counter if it's greater than flashcard count, otherwise ++ it
       this.counter >= this.flashcards.length ? this.counter = 1 : this.counter++;
-      this.currentQuestion = newQuestion;
       return newQuestion;
     },
     correct: function() {
+      // Do nothing if counter is at initial state
+      if (this.counter === 1)
+        return;
+
       if (this.currentBucket === this.bucketA) {
         this.moveQuestion(this.bucketA, this.bucketB);
       } else if (this.currentBucket === this.bucketB) {
@@ -75,8 +88,10 @@
       this.saveToLS();
     },
     wrong: function() {
+      // Do nothing if counter is at initial state
       if (this.counter === 1)
         return;
+
       this.moveQuestion(this.currentBucket, this.bucketA);
       this.saveToLS();
     },
@@ -84,7 +99,7 @@
       toBucket.push(fromBucket.shift());
     },
     getQuestion: function(bucket) {
-      // Prevent from looping thru an empty array
+      // Prevent from looping thru an empty bucket
       if (!bucket || bucket.length === 0) {
         console.log("You can't load an empty set of questions.");
         return;
@@ -105,26 +120,28 @@
     },
     saveToLS: function() {
       localStorage.flashcards = JSON.stringify(this.flashcards);
-      localStorage.bucketA = JSON.stringify(this.bucketA);
-      localStorage.bucketB = JSON.stringify(this.bucketB);
-      localStorage.bucketC = JSON.stringify(this.bucketC);
+      localStorage.bucketA    = JSON.stringify(this.bucketA);
+      localStorage.bucketB    = JSON.stringify(this.bucketB);
+      localStorage.bucketC    = JSON.stringify(this.bucketC);
     },
     getFromLS: function() {
-      this.flashcards = JSON.parse(localStorage.flashcards || '[]');
-      this.bucketA    = JSON.parse(localStorage.bucketA    || '[]');
-      this.bucketB    = JSON.parse(localStorage.bucketB    || '[]');
-      this.bucketC    = JSON.parse(localStorage.bucketC    || '[]');
-      this.currentBucket = this.bucketA.length ? this.bucketA : this.bucketB.length ? this.bucketB : this.bucketC.length ? this.bucketC : '';
-      this.counter = 1;
+      this.flashcards    = JSON.parse(localStorage.flashcards || '[]');
+      this.bucketA       = JSON.parse(localStorage.bucketA    || '[]');
+      this.bucketB       = JSON.parse(localStorage.bucketB    || '[]');
+      this.bucketC       = JSON.parse(localStorage.bucketC    || '[]');
+      this.currentBucket = this.bucketA.length ? this.bucketA :
+                           this.bucketB.length ? this.bucketB :
+                           this.bucketC.length ? this.bucketC : [];
 
+      this.counter = 1;
       return {flashcards: this.flashcards, bucketA: this.bucketA, bucketB: this.bucketB, bucketC: this.bucketC};
     },
-    reset: function() {
-      this.bucketA = this.flashcards.slice(0);
-      this.bucketB = [];
-      this.bucketC = [];
-      this.counter = 1;
-      this.currentBucket = '';
+    resetBuckets: function() {
+      this.bucketA       = this.flashcards.slice(0);
+      this.currentBucket = this.bucketA;
+      this.bucketB       = [];
+      this.bucketC       = [];
+      this.counter       = 1;
       this.saveToLS();
     }
   };
