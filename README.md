@@ -66,7 +66,7 @@ You can then use the functions outlined below.
     ouicards.getFromLS()
       // Gets your flashcards, Bucket A, Bucket B and Bucket C from localStorage. 
       // This also sets ouicards.currentBucket and ouicards.counter.
-    ouicards.reset()
+    ouicards.resetBuckets()
       // Resets ouicards buckets. 
       // Bucket A will equal your flashcards array. Bucket B and C will be empty arrays.  
       // Your currentBucket will also be empty and all of this will get saved to localStorage.
