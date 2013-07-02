@@ -22,6 +22,11 @@
          return card !== "";
        });
 
+      if (userInput.length === 0) {
+        console.log('There are no flashcards to upload.');
+        return;
+      }
+
       userInput.forEach(function(card) {
         var parsedCard = card.split(delimiter);
         flashcards.push({question: parsedCard[0], answer: parsedCard[1]});
@@ -37,8 +42,6 @@
       var newQuestion;
 
       if (this.counter % Math.ceil(this.flashcards.length / 3) +1 === 0 && this.bucketC.length !== 0) {
-        console.log('in c');
-        console.log(this.counter);
         newQuestion = this.getQuestion(this.bucketC);
         this.currentBucket = this.bucketC;
       } else if (this.counter % Math.ceil(this.flashcards.length / 5) +1 === 0 && this.bucketB.length !== 0) {
@@ -68,7 +71,7 @@
       } else if (this.currentBucket === this.bucketC) {
         this.moveQuestion(this.bucketC, this.bucketC);
       } else
-        console.log('hmm, you should not be here');
+        console.log('Hmm, you should not be here.');
       this.saveToLS();
     },
     wrong: function() {
