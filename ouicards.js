@@ -1,75 +1,131 @@
 (function(exports) {
   exports.ouicards = {
-    changeQuestion: function(arrayForRdnNm, flashcards, qSelector, aSelector) {
-      // Prevent user from looping thru an empty arrayForRdnNm or empty flashcards
-      if (!arrayForRdnNm || arrayForRdnNm.length === 0 || !flashcards || flashcards.length === 0 ) {
+    functions: {
+      next: "Takes 2 parameters: An array of question numbers (or flashcards) AND your flashcards. This returns a question/ answer object.",
+      saveToLS: "Loads a given set of tab-delimited flashcards into the app and saves those questions to localStorage.",
+      loadFromLS: "Retrieves flashcards from localStorage.",
+      clearLocalStorage: "The name says it all."
+    },
+
+    currentBucket: '',
+    flashcards: [],
+    bucketA: [],
+    bucketB: [],
+    bucketC: [],
+    counter: 0,
+
+    load: function(selector, delimiter) {
+      var flashcards = [],
+          userInput = $(selector).val().split('\n');
+
+      // Get rid of empty questions
+      userInput = userInput.filter(function(card) {
+         return card !== "";
+       });
+
+      userInput.forEach(function(card) {
+        var parsedCard = card.split(delimiter);
+        flashcards.push({question: parsedCard[0], answer: parsedCard[1]});
+      });
+
+      this.flashcards = flashcards;
+      this.reset();
+      this.currentBucket = this.bucketA;
+      this.saveToLS();
+      return this.getFromLS();
+    },
+    next: function() {
+      var newQuestion;
+
+      if (this.counter % Math.ceil(this.flashcards.length / 3) === 0 && this.bucketC.length !== 0) {
+        console.log('in c');
+        console.log(this.counter);
+        newQuestion = this.getQuestion(this.bucketC);
+       this.currentBucket = this.bucketC;
+      } else if (this.counter % Math.ceil(this.flashcards.length / 5) === 0 && this.bucketB.length !== 0) {
+        newQuestion = this.getQuestion(this.bucketB);
+        this.currentBucket = this.bucketB;
+      } else if (this.bucketA.length !== 0) {
+        newQuestion = this.getQuestion(this.bucketA);
+        this.currentBucket = this.bucketA;
+      } else if (this.bucketB.length !== 0) {
+        newQuestion = this.getQuestion(this.bucketB);
+        this.currentBucket = this.bucketB;
+      } else {
+        newQuestion = this.getQuestion(this.bucketC);
+        this.currentBucket = this.bucketC;
+      }
+
+      // Reset counter if it's greater than flashcard count, other wise ++ it
+      this.counter >= this.flashcards.length ? this.counter = 1 : this.counter++;
+      this.currentQuestion = newQuestion;
+      return newQuestion;
+    },
+    correct: function() {
+      if (this.counter === 1)
+        return;
+      if (this.currentBucket === this.bucketA) {
+        this.moveQuestion(this.bucketA, this.bucketB);
+      } else if (this.currentBucket === this.bucketB) {
+        this.moveQuestion(this.bucketB, this.bucketC);
+      } else if (this.currentBucket === this.bucketC) {
+        this.moveQuestion(this.bucketC, this.bucketC);
+      } else
+        console.log('hmm, wtf');
+      this.saveToLS();
+    },
+    wrong: function() {
+      if (this.counter === 1)
+        return;
+      this.moveQuestion(this.currentBucket, this.bucketA);
+      this.saveToLS();
+    },
+    moveQuestion: function(fromBucket, toBucket) {
+      toBucket.push(fromBucket.shift());
+    },
+    getQuestion: function(bucket) {
+      // Prevent from looping thru an empty array
+      if (!bucket || bucket.length === 0) {
         console.log('what are you doing?');
         return;
       }
 
-      var randomNumber = this.generateRandomNumber(arrayForRdnNm, flashcards);
-      var currentQuestionId = parseInt($('.question p').attr('id'), 10);
-
-      // Ensure same question is not displayed twice in a row
-      // Do this only if we have more than 1 question in our arrayForRdnNm
-      while (randomNumber === currentQuestionId && arrayForRdnNm.length > 1) {
-        randomNumber = this.generateRandomNumber(arrayForRdnNm, flashcards);
-      }
-
-      var questionObject = this.buildQuestionHTML(randomNumber, flashcards);
-
-      $(aSelector).hide();
-      $(qSelector).html(questionObject.question);
-      $(aSelector).html(questionObject.answer);
+      return this.buildQuestionHTML(bucket[0]);
     },
-    generateRandomNumber: function(arrayForRdnNm, flashcards) {
-      // If the arrayForRdnNm passed is === flashcards, just create a random number
-      // otherwise extract a random number from the arrayForRdnNm.
-      var randomNumber = arrayForRdnNm === flashcards ?
-          Math.floor(Math.random() * arrayForRdnNm.length) :
-          arrayForRdnNm[Math.floor(Math.random() * arrayForRdnNm.length)];
-      return randomNumber;
-    },
-    buildQuestionHTML: function(questionNumber, flashcards) {
+    buildQuestionHTML: function(rawQuestion) {
       var questionEl, answerEl;
 
       questionEl = document.createElement('p');
-      questionEl.id = questionNumber;
-      questionEl.innerHTML = flashcards[questionNumber].question;
+      questionEl.innerHTML = rawQuestion.question;
 
       answerEl = document.createElement('p');
-      answerEl.innerHTML = flashcards[questionNumber].answer.replace(/\n/g, '<br>');
+      answerEl.innerHTML = rawQuestion.answer.replace(/\n/g, '<br>');
 
       return {question: questionEl, answer: answerEl};
     },
-    saveToLocalStorage: function(questionID) {
-      var savedCards = this.getFromLocalStorage();
+    saveToLS: function() {
+      localStorage.flashcards = JSON.stringify(this.flashcards);
+      localStorage.bucketA = JSON.stringify(this.bucketA);
+      localStorage.bucketB = JSON.stringify(this.bucketB);
+      localStorage.bucketC = JSON.stringify(this.bucketC);
+    },
+    getFromLS: function() {
+      this.flashcards = JSON.parse(localStorage.flashcards || '{}');
+      this.bucketA    = JSON.parse(localStorage.bucketA    || '{}');
+      this.bucketB    = JSON.parse(localStorage.bucketB    || '{}');
+      this.bucketC    = JSON.parse(localStorage.bucketC    || '{}');
+      this.currentBucket = this.bucketA.length ? this.bucketA : this.bucketB.length ? this.bucketB : this.bucketC.length ? this.bucketC : '';
+      this.counter = 1;
 
-      // Not sure if there's a better way to do this without if/ else.
-      if ( savedCards && (savedCards.indexOf(questionID) === -1) && !isNaN(questionID) ) {
-        localStorage.savedQuestions = savedCards + ',' + questionID;
-      } else if ( !savedCards && !isNaN(questionID) ) {
-        localStorage.savedQuestions = questionID;
-      }
+      return {flashcards: this.flashcards, bucketA: this.bucketA, bucketB: this.bucketB, bucketC: this.bucketC};
     },
-    getFromLocalStorage: function() {
-      // Used to avoid JS errors. Not sure if this is the best way to do this.
-      if (!localStorage.savedQuestions) { return; }
-
-      var savedQuestions = localStorage.savedQuestions.split(',');
-      var savedQuestionsInt = savedQuestions.map(function(el) { return parseInt(el, 10); });
-      return savedQuestionsInt;
-    },
-    clearLocalStorage: function(saveButtonSelector) {
-      delete localStorage.savedQuestions;
-      this.updateSaveButtonCopy(saveButtonSelector);
-    },
-    updateSaveButtonCopy: function(saveButtonSelector) {
-      if (this.getFromLocalStorage()) {
-        $(saveButtonSelector).html("Saved: " + this.getFromLocalStorage().length + " question");
-      } else {
-        $(saveButtonSelector).html("Save Question");
-      }
+    reset: function() {
+      this.bucketA = this.flashcards.slice(0);
+      this.bucketB = [];
+      this.bucketC = [];
+      this.counter = 1;
+      this.currentBucket = '';
+      this.saveToLS();
     }
   };
 })(this);
