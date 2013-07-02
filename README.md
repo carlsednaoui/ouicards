@@ -1,8 +1,10 @@
 # Ouicards - Fancy Schmancy Flashcards
-Easy to use flashcards to study for... whatever. The example provided is for the New York State Immigration Naturalization test.
+Easy to use flashcards to study for... whatever. Ouicards uses a 3-bucket [Leitner System](http://en.wikipedia.org/wiki/Leitner_system) and relies on [jQuery](http://jquery.com/) and [localStorage](http://diveintohtml5.info/storage.html).
 
-## Live Example
-[Go here :)](http://carlsednaoui.github.io/ouicards/Example/index.html)
+The example provided is for the New York State Immigration Naturalization test. __Note:__ This example was built in June 2013 and may be outdated by the time you see it.
+
+## Example
+You can find a [live example here ](http://carlsednaoui.github.io/ouicards/Example/index.html).
 
 ## Using Ouicards
 The first thing you'll need is an array of Question/ Answer objects.
@@ -17,35 +19,48 @@ Example:
 You can then use the functions outlined below.
 
 ## Functions Available
+  
+    ouicards.loadFromArray(flashcardArray)
+      // [{question: q1, answer: a1}, {question: q2, answer: a2}]
+    ouicards.loadFromBrowser(jQuerySelector, Delimiter)
+      // Your delimeter will most likely be ',' or '\t'
+    ouicards.getFromLS()
+      // Get the questions and buckets from localStorge
+    ouicards.correct()
+      // Call this when the current question was answered correctly
+    ouicards.wrong()
+      // Call this when the current question was answered incorrectly
+    ouicards.next()
+      // Call this to receive a new Question/ Answer object
 
-    ouicards.changeQuestion(arrayForRdnNm, flashcards, qSelector, aSelector)
-      // arrayForRdnNm: This can either be your entire set of flashcards or an array of saved question numbers
-      // flashcards: These are the flashcards you are trying to learn
-      // qSelector: Your html question selector. This will be used by jQuery to find and replace your question html content.
-      // aSelector: Your html answer selector. This will be used by jQuery to find and replace your answer html content.
-
-    ouicards.clearLocalStorage(saveButtonSelector)
-      // Clears saved ouicards from localstorage.
-      // saveButtonSelector: The html selector for your save button. This will be used to update the button copy
-      //  and will read as follows: "Saved: 1 question"
+### Everything You Have Access To
     
-    ouicards.saveToLocalStorage(questionID)
-      // Save a given question to ouicards localstorage
-    
-    ouicards.getFromLocalStorage()
-      // Get saved ouicards from localstorage
+    ouicards.currentBucket: The bucket from which the current card is being pulled.
+    ouicards.flashcards: Your array of flashcards.
+    ouicards.bucketA: All questions available in Bucket A.
+    ouicards.bucketB: All questions available in Bucket B.
+    ouicards.bucketC: All questions available in Bucket C.
+    ouicards.counter: A running counter. Used to know which bucket to get the next question from.
 
-    ouicards.updateSaveButtonCopy(saveButtonSelector)
-      // Updates your save button copy. Similar to ouicards.clearLocalStorage(saveButtonSelector)
+    ouicards.loadFromBrowser(selector, delimiter): Uses jQuery to load the value of a given selector.
+      // This saves the questions into ouicards, localStorage AND returns an object with Flashcards, Bucket A, B and C.
+    ouicards.loadFromArray(array): Loads the array of questions provided into ouicards and localStorage.
+    ouicards.getQuestion(bucket): Gets a question for a given bucket and returns the built question HTML for it.
+    ouicards.buildQuestionHTML(rawQuestion): Returns a question/ answer HTML object {question: questionEl, answer: answerEl}.
 
+    ouicards.next(): Returns a new question/ answer object.
+    ouicards.correct(): Moves the current question to the next appropriate bucket.
+    ouicards.wrong(): Moves the current question to Bucket A.
+    ouicards.moveQuestion(fromBucket, toBucket): Moves a question from a given bucket to another given bucket.
+    ouicards.saveToLS(): Saves your flashcards, Bucket A, Bucket B and Bucket C to localStorage.
+    ouicards.getFromLS(): Gets your flashcards, Bucket A, Bucket B and Bucket C from localStorage. 
+      // This also sets ouicards.currentBucket and ouicards.counter.
+    ouicards.reset(): Resets ouicards buckets. 
+      // Bucket A will equal your flashcards array. Bucket B and C will be empty arrays.  
+      // Your currentBucket will also be empty and all of this will get saved to localStorage.
 
-### Other functions available - which you probably won't use
+## Contact
+Have feedback or suggestions? I'd love to hear from you, feel free to contact me here via [Github](https://github.com/carlsednaoui) or via [Twitter](https://twitter.com/carlsednaoui). 
 
-    ouicards.generateRandomNumber(arrayForRdnNm, flashcards)
-      // Generate a random number. Used by ouical.changeQuestion(arrayForRdnNm, flashcards, qSelector, aSelector)
-
-    ouicards.buildQuestionHTML(questionNumber, flashcards)
-      // Builds your questions/ answer html. Also used by ouical.changeQuestion(arrayForRdnNm, flashcards, qSelector, aSelector)
-    
-## To Do
-- Implement the [Leitner System](http://en.wikipedia.org/wiki/Leitner_system)
+## License
+[MIT](http://opensource.org/licenses/MIT)
