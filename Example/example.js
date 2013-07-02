@@ -1,5 +1,7 @@
 $(document).ready(function() {
-  // var ouicards = ouicards.getFromLS().flashcards.length === 0 ? ouiCardsFlashcards : ouicards.getFromLS();
+  // Load default questions if no flashcards are found in localStorage
+  if (!localStorage.flashcards || localStorage.flashcards === '[]')
+    ouicards.loadFromArray(ouiCardsFlashcards);
   initializeHandlers();
 });
 
@@ -23,7 +25,7 @@ function initializeHandlers() {
   });
 
   $('#load-questions').on('click', function() {
-    initializeHandlers(ouicards.load('#questions-input-area', ','));
+    initializeHandlers(ouicards.loadFromBrowser('#questions-input-area', ','));
     changeQuestion();
     $('#questions-input-area').hide();
     $('.upload').css({"padding": "10px"});
@@ -47,6 +49,11 @@ function initializeHandlers() {
 
   function changeQuestion() {
     var newQuestion = ouicards.next();
+
+    if (newQuestion === undefined) {
+      console.log('Trying to load an undefined question into the DOM.');
+      return;
+    }
 
     $('.question').html(newQuestion.question);
     $('.answer').html(newQuestion.answer);

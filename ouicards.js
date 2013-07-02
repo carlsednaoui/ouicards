@@ -1,20 +1,19 @@
 (function(exports) {
   exports.ouicards = {
-    functions: {
-      next: "Takes 2 parameters: An array of question numbers (or flashcards) AND your flashcards. This returns a question/ answer object.",
-      saveToLS: "Loads a given set of tab-delimited flashcards into the app and saves those questions to localStorage.",
-      loadFromLS: "Retrieves flashcards from localStorage.",
-      clearLocalStorage: "The name says it all."
-    },
-
     currentBucket: '',
     flashcards: [],
     bucketA: [],
     bucketB: [],
     bucketC: [],
-    counter: 0,
+    counter: 1,
 
-    load: function(selector, delimiter) {
+    loadFromArray: function(array) {
+      this.flashcards = array;
+      this.reset();
+      this.currentBucket = this.bucketA;
+      this.saveToLS();
+    },
+    loadFromBrowser: function(selector, delimiter) {
       var flashcards = [],
           userInput = $(selector).val().split('\n');
 
@@ -37,12 +36,12 @@
     next: function() {
       var newQuestion;
 
-      if (this.counter % Math.ceil(this.flashcards.length / 3) === 0 && this.bucketC.length !== 0) {
+      if (this.counter % Math.ceil(this.flashcards.length / 3) +1 === 0 && this.bucketC.length !== 0) {
         console.log('in c');
         console.log(this.counter);
         newQuestion = this.getQuestion(this.bucketC);
-       this.currentBucket = this.bucketC;
-      } else if (this.counter % Math.ceil(this.flashcards.length / 5) === 0 && this.bucketB.length !== 0) {
+        this.currentBucket = this.bucketC;
+      } else if (this.counter % Math.ceil(this.flashcards.length / 5) +1 === 0 && this.bucketB.length !== 0) {
         newQuestion = this.getQuestion(this.bucketB);
         this.currentBucket = this.bucketB;
       } else if (this.bucketA.length !== 0) {
@@ -62,8 +61,6 @@
       return newQuestion;
     },
     correct: function() {
-      if (this.counter === 1)
-        return;
       if (this.currentBucket === this.bucketA) {
         this.moveQuestion(this.bucketA, this.bucketB);
       } else if (this.currentBucket === this.bucketB) {
@@ -71,7 +68,7 @@
       } else if (this.currentBucket === this.bucketC) {
         this.moveQuestion(this.bucketC, this.bucketC);
       } else
-        console.log('hmm, wtf');
+        console.log('hmm, you should not be here');
       this.saveToLS();
     },
     wrong: function() {
@@ -86,7 +83,7 @@
     getQuestion: function(bucket) {
       // Prevent from looping thru an empty array
       if (!bucket || bucket.length === 0) {
-        console.log('what are you doing?');
+        console.log("You can't load an empty set of questions.");
         return;
       }
 
@@ -110,10 +107,10 @@
       localStorage.bucketC = JSON.stringify(this.bucketC);
     },
     getFromLS: function() {
-      this.flashcards = JSON.parse(localStorage.flashcards || '{}');
-      this.bucketA    = JSON.parse(localStorage.bucketA    || '{}');
-      this.bucketB    = JSON.parse(localStorage.bucketB    || '{}');
-      this.bucketC    = JSON.parse(localStorage.bucketC    || '{}');
+      this.flashcards = JSON.parse(localStorage.flashcards || '[]');
+      this.bucketA    = JSON.parse(localStorage.bucketA    || '[]');
+      this.bucketB    = JSON.parse(localStorage.bucketB    || '[]');
+      this.bucketC    = JSON.parse(localStorage.bucketC    || '[]');
       this.currentBucket = this.bucketA.length ? this.bucketA : this.bucketB.length ? this.bucketB : this.bucketC.length ? this.bucketC : '';
       this.counter = 1;
 
