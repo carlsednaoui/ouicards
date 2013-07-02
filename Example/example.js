@@ -1,74 +1,71 @@
 $(document).ready(function() {
-  initializeHandlers(ouiCardsFlashcards);
-  ouicards.updateSaveButtonCopy('.save');
+  // var ouicards = ouicards.getFromLS().flashcards.length === 0 ? ouiCardsFlashcards : ouicards.getFromLS();
+  initializeHandlers();
 });
 
-function initializeHandlers(flashcards) {
-    // Unbind all events, in case the user loads new flashcard questions
-    $('.generate').unbind();
-    $('.loop-thru-saved-questions').unbind();
-    $('.question').unbind();
-    $('.clear-local-storage').unbind();
-    $('.save').unbind();
-    $('.answer').unbind();
+function initializeHandlers() {
+  // Unbind all events, in case the user loads new flashcard questions
+  $('#load-questions').unbind();
+  $('.correct').unbind();
+  $('.wrong').unbind();
+  $('.question').unbind();
+  $('.answer').unbind();
 
-    // If answer is hidden, show it. Otherwise create a new question and insert it.
-    $('.generate').on('click', function() {
-      $('.answer').is(':visible') ? ouicards.changeQuestion(flashcards, flashcards, '.question', '.answer') : $('.answer').show();
+  ouicards.getFromLS();
+  updateFooter();
+  // Load question functionality
+  $('.upload label').on('click', function() {
+    $('.upload-questions-label').hide();
+    $('.upload').css({"padding": " 0 2px 10px 2px"});
+    $('#questions-input-area').show(100, function(){
+      $('#load-questions').show(400);
     });
+  });
 
-    // Same thing with the loop-thru-saved-questions button.
-    $('.loop-thru-saved-questions').on('click', function() {
-      $('.answer').is(':visible') ? ouicards.changeQuestion(ouicards.getFromLocalStorage(), flashcards, '.question', '.answer') : $('.answer').show();
-    });
+  $('#load-questions').on('click', function() {
+    initializeHandlers(ouicards.load('#questions-input-area', ','));
+    changeQuestion();
+    $('#questions-input-area').hide();
+    $('.upload').css({"padding": "10px"});
+    $('#load-questions').hide();
+    $('.upload-questions-label').text("Upload New Questions");
+    $('.upload-questions-label').show();
+  });
 
-    // Display answer if user clicks on question.
-    $('.question').on('click', function() {
-      $('.answer').show();
-    });
+  // Correct and wrong answer functionality
+  $('.correct').on('click', function() {
+    ouicards.correct();
+    changeQuestion();
+    updateFooter();
+  });
 
-    // Clear the local storage -- to reset saved questions.
-    $('.clear-local-storage').on('click', function() {
-      ouicards.clearLocalStorage('.save');
-    });
+  $('.wrong').on('click', function() {
+    ouicards.wrong();
+    changeQuestion();
+    updateFooter();
+  });
 
-    // Save question to local storage.
-    $('.save').on('click', function() {
-      var questionID = parseInt($('.question p').attr('id'), 10);
+  function changeQuestion() {
+    var newQuestion = ouicards.next();
 
-      if (!isNaN(questionID)) {
-        ouicards.saveToLocalStorage(questionID);
-        $('.save').html("Saved: " + ouicards.getFromLocalStorage().length + " question");
-      }
-    });
+    $('.question').html(newQuestion.question);
+    $('.answer').html(newQuestion.answer);
+    $('.answer').children().hide();
+  }
 
-    // Show custom question input area
-    $('#pre-load-button').click(function(){
-      $('#questions-input-area').show();
-      $('#load-questions').show();
-      $('#pre-load-button').hide();
-    });
+  $('.question').on('click', function() {
+    $('.answer p').show();
+  });
 
-    // Get custom questions from input area
-    function getUserQuestions() {
-      var flashcards = [],
-          userInput = document.getElementById('questions-input-area').value.split('\n');
+  $('.answer').on('click', function() {
+    $('.answer p').show();
+  });
 
-      // Get rid of empty questions
-      userInput = userInput.filter(function(card) {
-        return card !== "";
-      });
-
-      userInput.forEach(function(card) {
-        var parsedCard = card.split('\t');
-        flashcards.push({question: parsedCard[0], answer: parsedCard[1]});
-      });
-
-      return flashcards;
-    }
-
-   // Reload this whole thing if a user loads new questions in
-   $('#load-questions').click(function(){
-     initializeHandlers( getUserQuestions() );
-   });
+  // Update footer info
+  function updateFooter() {
+    $('.questions-count').html(ouicards.flashcards.length + ' questions');
+    $('#stat-details').text(ouicards.bucketA.length + ' - ' +
+                            ouicards.bucketB.length + ' - ' +
+                            ouicards.bucketC.length);
+  }
 }
