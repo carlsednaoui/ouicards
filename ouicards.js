@@ -41,10 +41,10 @@
     next: function() {
       var newQuestion;
 
-      if (this.counter % Math.ceil(this.flashcards.length / 3) +1 === 0 && this.bucketC.length !== 0) {
+      if (this.counter % (Math.ceil(this.flashcards.length / 3) +1) === 0 && this.bucketC.length !== 0) {
         newQuestion = this.getQuestion(this.bucketC);
         this.currentBucket = this.bucketC;
-      } else if (this.counter % Math.ceil(this.flashcards.length / 5) +1 === 0 && this.bucketB.length !== 0) {
+      } else if (this.counter % (Math.ceil(this.flashcards.length / 6) +1) === 0 && this.bucketB.length !== 0) {
         newQuestion = this.getQuestion(this.bucketB);
         this.currentBucket = this.bucketB;
       } else if (this.bucketA.length !== 0) {
