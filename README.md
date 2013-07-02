@@ -4,7 +4,7 @@ Easy to use flashcards to study for... whatever. Ouicards uses a 3-bucket [Leitn
 The example provided is for the New York State Immigration Naturalization test. __Note:__ This example was built in June 2013 and may be outdated by the time you see it.
 
 ## Example
-You can find a [live example here ](http://carlsednaoui.github.io/ouicards/Example/index.html).
+You can find a [live example here](http://carlsednaoui.github.io/ouicards/Example/index.html).
 
 ## Using Ouicards
 The first thing you'll need is an array of Question/ Answer objects.
