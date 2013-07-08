@@ -150,22 +150,22 @@
   }
 
   exports.ouicards = {
-    currentBucket: [],
-    flashcards:    [],
-    bucketA:       [],
-    bucketB:       [],
-    bucketC:       [],
-    counter:       1,
-    loadFromArray: loadFromArray,
-    loadFromBrowser: loadFromBrowser,
-    next: next,
-    correct: correct,
-    wrong: wrong,
-    moveQuestion: moveQuestion,
-    getQuestion: getQuestion,
-    buildQuestionHTML: buildQuestionHTML,
-    saveToLS: saveToLS,
-    getFromLS: getFromLS,
-    resetBuckets: resetBuckets
+    currentBucket:      [],
+    flashcards:         [],
+    bucketA:            [],
+    bucketB:            [],
+    bucketC:            [],
+    counter:            1,
+    loadFromArray:      loadFromArray,
+    loadFromBrowser:    loadFromBrowser,
+    next:               next,
+    correct:            correct,
+    wrong:              wrong,
+    moveQuestion:       moveQuestion,
+    getQuestion:        getQuestion,
+    buildQuestionHTML:  buildQuestionHTML,
+    saveToLS:           saveToLS,
+    getFromLS:          getFromLS,
+    resetBuckets:       resetBuckets
   };
 })(this);
