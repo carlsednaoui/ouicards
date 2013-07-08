@@ -1,7 +1,7 @@
 $(document).ready(function() {
   // Load default questions if no flashcards are found in localStorage
   if (!localStorage.flashcards || localStorage.flashcards === '[]')
-    ouicards.loadFromArray(ouiCardsFlashcards);
+    ouicards.loadFromArray(myFlashcards);
   initializeHandlers();
 });
 
