@@ -1,3 +1,5 @@
+var start; // used to initialize the app
+
 $(document).ready(function() {
   // Load default questions if no flashcards are found in localStorage
   if (!localStorage.flashcards || localStorage.flashcards === '[]')
@@ -32,16 +34,30 @@ function initializeHandlers() {
     $('#load-questions').hide();
     $('.upload-questions-label').text("Upload New Questions");
     $('.upload-questions-label').show();
+    start = true;
   });
 
   // Correct and wrong answer functionality
   $('.correct').on('click', function() {
+    if (!start) {
+      console.log(start);
+      start = true;
+      changeQuestion();
+      return;
+    }
+
     ouicards.correct();
     changeQuestion();
     updateFooter();
   });
 
   $('.wrong').on('click', function() {
+    if (!start) {
+      start = true;
+      changeQuestion();
+      return;
+    }
+
     ouicards.wrong();
     changeQuestion();
     updateFooter();
