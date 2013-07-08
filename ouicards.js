@@ -5,7 +5,7 @@
   }
 
   function loadFromBrowser(selector, delimiter) {
-    var _flashcards = [],
+    var flashcards = [],
         userInput  = $(selector).val().split('\n');
 
     // Get rid of empty questions
@@ -20,10 +20,10 @@
 
     userInput.forEach(function(card) {
       var parsedCard = card.split(delimiter);
-      _flashcards.push({question: parsedCard[0], answer: parsedCard[1]});
+      flashcards.push({question: parsedCard[0], answer: parsedCard[1]});
     });
 
-    ouicards.flashcards = _flashcards;
+    ouicards.flashcards = flashcards;
     resetBuckets();
     return getFromLS();
   }
@@ -69,10 +69,6 @@
   }
 
   function correct() {
-    // Do nothing if ouicards.counter is at initial state
-    if (ouicards.counter === 1)
-      return;
-
     if (ouicards.currentBucket === ouicards.bucketA) {
       moveQuestion(ouicards.bucketA, ouicards.bucketB);
     } else if (ouicards.currentBucket === ouicards.bucketB) {
@@ -85,11 +81,6 @@
   }
 
   function wrong() {
-    console.log(ouicards.counter);
-    // Do nothing if ouicards.counter is at initial state
-    if (ouicards.counter === 1)
-      return;
-
     moveQuestion(ouicards.currentBucket, ouicards.bucketA);
     saveToLS();
   }
