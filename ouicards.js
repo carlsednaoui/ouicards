@@ -160,6 +160,7 @@
     resetBuckets:       resetBuckets
   };
 
+// jQuery magic
   var showNext = function() {
     var result = next();
     $('#current-question').first().html(result['question']);
