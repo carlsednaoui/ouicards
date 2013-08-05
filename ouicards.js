@@ -1,4 +1,4 @@
-(function(exports) {
+;(function(exports) {
   function loadFromArray(array) {
     ouicards.flashcards = array;
     resetBuckets();
@@ -159,4 +159,42 @@
     getFromLS:          getFromLS,
     resetBuckets:       resetBuckets
   };
+
+  var showNext = function() {
+    var result = next();
+    $('#current-question').first().html(result['question']);
+    $('#current-answer').first().hide().html(result['answer']);
+  };
+
+  $.fn.ouicards = function() {
+    var result = [];
+    this.find('ul').hide().children().each(function() {
+      result.push({
+        question: $(this).find('.question').text(),
+        answer: $(this).find('.answer').text()
+      });
+    });
+    
+    loadFromArray(result);
+
+    $('a#correct').click(function(event) {
+      event.preventDefault();
+      correct();
+      showNext();
+    });
+
+    $('a#wrong').click(function(event) {
+      event.preventDefault();
+      wrong();
+      showNext();
+    });
+
+    $('a#show-answer').click(function(event){
+      event.preventDefault();
+      $('#current-answer').first().show();
+    });
+
+    showNext();
+  };
+
 })(this);
