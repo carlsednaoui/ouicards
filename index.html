@@ -42,19 +42,91 @@
         <h1>
 <a name="ouicards---fancy-schmancy-flashcards" class="anchor" href="#ouicards---fancy-schmancy-flashcards"><span class="octicon octicon-link"></span></a>Ouicards - Fancy Schmancy Flashcards</h1>
 
-<p>Easy to use flashcards to study for... whatever. Ouicards uses a 3-bucket <a href="http://en.wikipedia.org/wiki/Leitner_system">Leitner System</a> and relies on <a href="http://jquery.com/">jQuery</a> and <a href="http://diveintohtml5.info/storage.html">localStorage</a>.</p>
+<p>Ouicards allows you to easily build flashcards to study for... everything! </p>
 
-<p>The example provided is for the New York State Immigration Naturalization test. <strong>Note:</strong> This example was built in June 2013 and may be outdated by the time you see it.</p>
+<p>Ouicards uses a 3-bucket <a href="http://en.wikipedia.org/wiki/Leitner_system">Leitner System</a> and relies on <a href="http://jquery.com/">jQuery</a> and <a href="http://diveintohtml5.info/storage.html">localStorage</a>.</p>
+
+<p><a href="http://carlsednaoui.github.io/ouicards/">Here is the official OuiCards page</a>.</p>
+
+<h2>
+<a name="about-the-leitner-system" class="anchor" href="#about-the-leitner-system"><span class="octicon octicon-link"></span></a>About the Leitner System</h2>
+
+<p>From the <a href="http://en.wikipedia.org/wiki/Leitner_system">Wikiperdia page</a>: </p>
+
+<p>The Leitner system is a widely used method to efficiently use flashcards that was proposed by the German science journalist Sebastian Leitner in the 1970s. <strong>It is a simple implementation of the principle of spaced repetition, where cards are reviewed at increasing interval.</strong></p>
+
+<p>In this method flashcards are sorted into groups according to how well you know each one in the Leitner's learning box. This is how it works: you try to recall the solution written on a flashcard. If you succeed, you send the card to the next group. But if you fail, you send it back to the first group. <strong>Each succeeding group has a longer period of time before you are required to revisit the cards.</strong></p>
 
 <h2>
 <a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
 
-<p>You can find a <a href="http://carlsednaoui.github.io/ouicards/Example/index.html">live example here</a>.</p>
+<p><a href="http://carlsednaoui.github.io/ouicards/live-examples/index.html">Here's a ouicards example</a>, created for the New York State Immigration Naturalization test. </p>
+
+<p><strong>Note:</strong> This example was built in June 2013 and may be outdated by the time you see it.</p>
 
 <h2>
 <a name="using-ouicards" class="anchor" href="#using-ouicards"><span class="octicon octicon-link"></span></a>Using Ouicards</h2>
 
-<p>The first thing you'll need is an array of Question/ Answer objects.</p>
+<h3>
+<a name="-as-a-jquery-plugin" class="anchor" href="#-as-a-jquery-plugin"><span class="octicon octicon-link"></span></a>&gt; As a jQuery plugin</h3>
+
+<p>If you'd like to quickly get running with OuiCards, you can simply create a &lt;ul&gt; with the right CSS Classes and OuiCards will take care of the rest.</p>
+
+<p>Requirements:</p>
+
+<ul>
+<li>A div containing a &lt;ul&gt; where you'll create your questions and answers. In the example below this is this div: &lt;div id='flashcards'&gt;</li>
+<li>&lt;li&gt;'s holding 2 divs. One for the question (with a class of 'question') and one for the answer (with a class of 'answer')</li>
+<li>A div with an id of 'current-question', to show the question</li>
+<li>A div with an id of 'current-answer', to show the answer</li>
+<li>A link with an id of 'show-answer', to reveal the answer (by default you'll only see the question at first)</li>
+<li>A link with an id of 'correct', which a user will click if they get the question right</li>
+<li>A link with an id of 'wrong', which a user will click if they get the question wrong</li>
+</ul><p>Here's some example code (<a href="http://carlsednaoui.github.io/ouicards/live-examples/ouicards-jquery-example.html">also available here</a>):</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Welcome&lt;/title&gt;
+  &lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"&gt;&lt;/script&gt;
+  &lt;script src="../ouicards.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    $(function() { 
+      $('#flashcards').ouicards(); 
+    });
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;Ouicards jQuery!&lt;/h1&gt;
+  &lt;div id='flashcards'&gt;
+    &lt;div id='current-question'&gt;&lt;/div&gt;
+    &lt;div id='current-answer'&gt;&lt;/div&gt;
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;div class='question'&gt;Question 1&lt;/div&gt;
+        &lt;div class='answer'&gt;Answer 1&lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div class='question'&gt;Question 2&lt;/div&gt;
+        &lt;div class='answer'&gt;Answer 2&lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div class='question'&gt;Question 3&lt;/div&gt;
+        &lt;div class='answer'&gt;Answer 3&lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;a id='show-answer' href='#'&gt;Show answer&lt;/a&gt;
+    &lt;a id="correct" href="#"&gt;Correct&lt;/a&gt;
+    &lt;a id="wrong" href="#"&gt;Wrong&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3>
+<a name="-as-a-javascript-library" class="anchor" href="#-as-a-javascript-library"><span class="octicon octicon-link"></span></a>&gt; As a JavaScript Library</h3>
+
+<p>Welcome to the big leagues! The first thing you'll need is an array of Question/ Answer objects.</p>
 
 <p>Example:</p>
 
@@ -66,8 +138,8 @@
 
 <p>You can then use the functions outlined below.</p>
 
-<h2>
-<a name="functions-available" class="anchor" href="#functions-available"><span class="octicon octicon-link"></span></a>Functions Available</h2>
+<h4>
+<a name="functions-available" class="anchor" href="#functions-available"><span class="octicon octicon-link"></span></a>Functions Available</h4>
 
 <pre><code>ouicards.loadFromArray(flashcardArray)
   // [{question: q1, answer: a1}, {question: q2, answer: a2}]
@@ -83,8 +155,8 @@ ouicards.next()
   // Call this to receive a new Question/ Answer object
 </code></pre>
 
-<h3>
-<a name="everything-you-have-access-to" class="anchor" href="#everything-you-have-access-to"><span class="octicon octicon-link"></span></a>Everything You Have Access To</h3>
+<h4>
+<a name="everything-you-have-access-to" class="anchor" href="#everything-you-have-access-to"><span class="octicon octicon-link"></span></a>Everything You Have Access To</h4>
 
 <pre><code>ouicards.currentBucket: The bucket from which the current card is being pulled.
 ouicards.flashcards: Your array of flashcards.
@@ -132,6 +204,10 @@ ouicards.resetBuckets()
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p><a href="http://opensource.org/licenses/MIT">MIT</a></p>
+
+<h2>
+<a name="completed-while-attending-hacker-school" class="anchor" href="#completed-while-attending-hacker-school"><span class="octicon octicon-link"></span></a>Completed while attending <a href="https://www.hackerschool.com/">Hacker School</a>
+</h2>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/carlsednaoui">carlsednaoui</a></p>
