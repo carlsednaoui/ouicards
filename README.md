@@ -3,6 +3,8 @@ Ouicards allows you to easily build flashcards to study for... everything!
 
 Ouicards uses a 3-bucket [Leitner System](http://en.wikipedia.org/wiki/Leitner_system) and relies on [jQuery](http://jquery.com/) and [localStorage](http://diveintohtml5.info/storage.html).
 
+[Here is the official OuiCards page](http://carlsednaoui.github.io/ouicards/).
+
 ## About the Leitner System
 From the [Wikiperdia page](http://en.wikipedia.org/wiki/Leitner_system): 
 
