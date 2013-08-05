@@ -1,0 +1,158 @@
+/*
+*******************************
+  Main Styles
+*******************************
+*/
+
+body {
+   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 300;
+}
+
+.flashcard {
+  width: 380px;
+  margin: 0 auto;
+  color: #fbfbfb;
+}
+
+/*
+*******************************
+  Upload Area Styles
+*******************************
+*/
+
+.upload {
+  background-color: #606e7e;
+  text-align: center;
+  padding: 10px 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.upload label {
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#questions-input-area, #load-questions {
+  display: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#load-questions {
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/*
+*******************************
+  Controls: Correct, Wrong Styles
+*******************************
+*/
+
+.correct, .wrong {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.controls div {
+  width: 50%;
+  text-align: center;
+  padding: 25px 0;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.controls label {
+  font-size: 3em;
+  cursor: pointer;
+}
+
+.correct {
+  background-color: #7dce90;
+  float: left;
+}
+
+.wrong {
+  background-color: #dc7a6b;
+}
+
+/*
+*******************************
+  Question/ Answer Styles
+*******************************
+*/
+
+.question, .answer {
+  padding: 8px 11px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.question p, .answer p {
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+.answer p a {
+  color: #fbfbfb;
+}
+
+.question {
+  background-color: #4a8bc0;
+  min-height: 120px;
+  font-size: 1.3em;
+}
+
+.answer {
+  background-color: #6fadde;
+  min-height: 300px;
+}
+
+.answer p {
+  display: none;
+}
+
+/*
+*******************************
+  Footer Styles
+*******************************
+*/
+
+.footer > div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  font-size: .8em;
+  padding: 6px;
+}
+
+.stats {
+  background-color: #324253;
+  width: 100%;
+}
+
+.questions-count {
+  display: inline-block;
+}
+
+.current-stats {
+  float: right;
+  margin-right: 20px;
+}
+
+.icon-stats {
+  margin-right: 10px;
+}

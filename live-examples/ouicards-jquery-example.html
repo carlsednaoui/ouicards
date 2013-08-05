@@ -1,0 +1,65 @@
+<html>
+<head>
+  <title>Welcome</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="../ouicards.js"></script>
+  <script>
+    $(function() { 
+      $('#flashcards').ouicards(); 
+    });
+  </script>
+</head>
+
+<body>
+  <h1>Ouicards jQuery!</h1>
+  <div id='flashcards'>
+    <div id='current-question'></div>
+    <div id='current-answer'></div>
+    <ul>
+      <li>
+        <div class='question'>Question 1</div>
+        <div class='answer'>Answer 1</div>
+      </li>
+      <li>
+        <div class='question'>Question 2</div>
+        <div class='answer'>Answer 2</div>
+      </li>
+      <li>
+        <div class='question'>Question 3</div>
+        <div class='answer'>Answer 3</div>
+      </li>
+      <li>
+        <div class='question'>Question 4</div>
+        <div class='answer'>Answer 4</div>
+      </li>
+      <li>
+        <div class='question'>Question 5</div>
+        <div class='answer'>Answer 5</div>
+      </li>
+      <li>
+        <div class='question'>Question 6</div>
+        <div class='answer'>Answer 6</div>
+      </li>
+      <li>
+        <div class='question'>Question 7</div>
+        <div class='answer'>Answer 7</div>
+      </li>
+      <li>
+        <div class='question'>Question 8</div>
+        <div class='answer'>Answer 8</div>
+      </li>
+      <li>
+        <div class='question'>Question 9</div>
+        <div class='answer'>Answer 9</div>
+      </li>
+      <li>
+        <div class='question'>Question 10</div>
+        <div class='answer'>Answer 10</div>
+      </li>
+    </ul>
+    <a id='show-answer' href='#'>Show answer</a>
+    <a id="correct" href="#">Correct</a>
+    <a id="wrong" href="#">Wrong</a>
+  </div>
+</body>
+</html>
