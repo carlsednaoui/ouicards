@@ -6,7 +6,7 @@ Ouicards uses a 3-bucket [Leitner System](http://en.wikipedia.org/wiki/Leitner_s
 [Here is the official OuiCards page](http://carlsednaoui.github.io/ouicards/).
 
 ## About the Leitner System
-From the [Wikiperdia page](http://en.wikipedia.org/wiki/Leitner_system): 
+From the [Wikipedia page](http://en.wikipedia.org/wiki/Leitner_system): 
 
 The Leitner system is a widely used method to efficiently use flashcards that was proposed by the German science journalist Sebastian Leitner in the 1970s. __It is a simple implementation of the principle of spaced repetition, where cards are reviewed at increasing interval.__
 
